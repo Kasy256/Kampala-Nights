@@ -1,98 +1,221 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, Text, ScrollView, TextInput, TouchableOpacity, StatusBar } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
+import { Colors } from '@/constants/theme';
+import { useColorScheme } from '@/hooks/use-color-scheme';
+import { EventCard, Event } from '@/components/event-card';
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+const MOCK_EVENTS: Event[] = [
+  {
+    id: '1',
+    title: 'Amapiano Night',
+    artist: 'DJ Etania',
+    venueName: 'Thrones Lounge Bar',
+    location: 'Naguru',
+    date: 'TONIGHT, 27 APR',
+    time: '8:00 PM',
+    category: 'Live Music',
+    price: 'UGX 30,000',
+    image: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=800&auto=format&fit=crop',
+    verified: true
+  },
+  {
+    id: '2',
+    title: 'Vybz Kartel Live',
+    artist: 'Vybz Kartel',
+    venueName: 'Lugogo Cricket Oval',
+    location: 'Lugogo',
+    date: 'SAT, 15 MAY',
+    time: '6:00 PM',
+    category: 'Concert',
+    price: 'UGX 50,000',
+    image: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=800&auto=format&fit=crop',
+    verified: true
+  },
+  {
+    id: '3',
+    title: 'Sunset Wine Tasting',
+    venueName: 'Sky Lounge',
+    location: 'Kisementi',
+    date: 'SUN, 28 APR',
+    time: '4:00 PM',
+    category: 'Rooftop',
+    price: 'UGX 100,000',
+    image: 'https://images.unsplash.com/photo-1566417713940-fe7c737a9ef2?q=80&w=800&auto=format&fit=crop',
+    verified: true
+  },
+  {
+    id: '4',
+    title: 'Techno Takeover',
+    artist: 'Dark Knight',
+    venueName: 'The ByPass',
+    location: 'Kabalagala',
+    date: 'FRI, 30 APR',
+    time: '10:00 PM',
+    category: 'Club Night',
+    price: 'UGX 20,000',
+    image: 'https://images.unsplash.com/photo-1598333122483-1d218f060f65?q=80&w=800&auto=format&fit=crop',
+    verified: false
+  }
+];
 
-export default function HomeScreen() {
+const CATEGORIES = ['All', 'Live Music', 'Concerts', 'Rooftop', 'Comedy', 'Club Night'];
+
+export default function DiscoverScreen() {
+  const colorScheme = useColorScheme() ?? 'light';
+  const theme = Colors[colorScheme];
+  const [activeCategory, setActiveCategory] = useState('All');
+  const [searchQuery, setSearchQuery] = useState('');
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
+      <StatusBar barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'} />
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+      <View style={styles.header}>
+        <View>
+          <View style={styles.locationContainer}>
+            <Ionicons name="location" size={16} color={theme.tint} />
+            <Text style={[styles.locationText, { color: theme.text }]}>Kampala</Text>
+            <Ionicons name="chevron-down" size={14} color={theme.text} />
+          </View>
+          <Text style={[styles.title, { color: theme.text }]}>Happening Tonight?</Text>
+        </View>
+        <TouchableOpacity style={[styles.profileButton, { backgroundColor: theme.card }]}>
+          <Ionicons name="person" size={20} color={theme.text} />
+        </TouchableOpacity>
+      </View>
+
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.searchSection}>
+          <View style={[styles.searchBar, { backgroundColor: theme.card }]}>
+            <Ionicons name="search" size={20} color={theme.secondary} />
+            <TextInput
+              placeholder="Search events, artists..."
+              placeholderTextColor={theme.secondary}
+              style={[styles.searchInput, { color: theme.text }]}
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+            />
+          </View>
+          <TouchableOpacity style={[styles.filterButton, { backgroundColor: theme.tint }]}>
+            <Ionicons name="options" size={20} color="#FFF" />
+          </TouchableOpacity>
+        </View>
+
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={styles.categoriesScroll}
+          contentContainerStyle={styles.categoriesContent}
+        >
+          {CATEGORIES.map((category) => (
+            <TouchableOpacity
+              key={category}
+              onPress={() => setActiveCategory(category)}
+              style={[
+                styles.categoryBadge,
+                { backgroundColor: activeCategory === category ? theme.tint : theme.card }
+              ]}
+            >
+              <Text style={[
+                styles.categoryText,
+                { color: activeCategory === category ? '#FFF' : theme.text }
+              ]}>
+                {category}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+
+        <View style={styles.feed}>
+          {MOCK_EVENTS.map((event) => (
+            <EventCard key={event.id} event={event} />
+          ))}
+        </View>
+
+        <View style={{ height: 40 }} />
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  container: {
+    flex: 1,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingTop: 10,
+    paddingBottom: 20,
+  },
+  locationContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: 4,
+    marginBottom: 4,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  locationText: {
+    fontSize: 16,
+    fontWeight: '600',
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+  },
+  profileButton: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  searchSection: {
+    flexDirection: 'row',
+    paddingHorizontal: 20,
+    gap: 12,
+    marginBottom: 20,
+  },
+  searchBar: {
+    flex: 1,
+    height: 50,
+    borderRadius: 15,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 15,
+  },
+  searchInput: {
+    flex: 1,
+    marginLeft: 10,
+    fontSize: 16,
+  },
+  filterButton: {
+    width: 50,
+    height: 50,
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  categoriesScroll: {
+    marginBottom: 20,
+  },
+  categoriesContent: {
+    paddingHorizontal: 20,
+    gap: 10,
+  },
+  categoryBadge: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 25,
+  },
+  categoryText: {
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  feed: {
+    paddingHorizontal: 20,
   },
 });
