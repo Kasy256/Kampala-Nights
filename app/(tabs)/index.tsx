@@ -79,7 +79,7 @@ export default function DiscoverScreen() {
             <Text style={[styles.locationText, { color: theme.text }]}>Kampala</Text>
             <Ionicons name="chevron-down" size={14} color={theme.text} />
           </View>
-          <Text style={[styles.title, { color: theme.text }]}>Happening Tonight?</Text>
+          <Text style={[styles.title, { color: theme.text }]}>What's Happening?</Text>
         </View>
         <TouchableOpacity style={[styles.profileButton, { backgroundColor: theme.card }]}>
           <Ionicons name="person" size={20} color={theme.text} />

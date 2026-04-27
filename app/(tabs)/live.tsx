@@ -24,7 +24,7 @@ const MOCK_REELS = [
   },
   {
     id: '2',
-    user: 'Angellah M.',
+    user: 'Jane M.',
     avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop',
     venue: 'Sky Lounge',
     location: 'Kisementi, Kampala',
@@ -76,11 +76,11 @@ const SwipeHint = () => {
 
 const ReelItem = ({ item, index }: { item: typeof MOCK_REELS[0], index: number }) => {
   const router = useRouter();
-  
+
   return (
     <View style={styles.reelContainer}>
       <Image source={{ uri: item.image }} style={styles.backgroundContent} contentFit="cover" />
-      
+
       <View style={styles.overlay}>
         <SafeAreaView style={styles.topHeader}>
           <View style={styles.timeBadge}>
@@ -103,7 +103,7 @@ const ReelItem = ({ item, index }: { item: typeof MOCK_REELS[0], index: number }
             <Ionicons name="chatbubble-ellipses" size={35} color="#FFF" />
             <Text style={styles.actionText}>{item.comments}</Text>
           </TouchableOpacity>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={[styles.actionItem, styles.directionsBtn]}
             onPress={() => Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.venue + ' ' + item.location)}`)}
           >
@@ -123,7 +123,7 @@ const ReelItem = ({ item, index }: { item: typeof MOCK_REELS[0], index: number }
               </TouchableOpacity>
             </View>
           </View>
-          
+
           <Text style={styles.caption} numberOfLines={3}>
             {item.caption}
           </Text>

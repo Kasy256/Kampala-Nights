@@ -23,13 +23,13 @@ export default function ProfileScreen() {
     <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
-          <Image 
-            source={{ uri: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop' }} 
-            style={styles.profileImage} 
+          <Image
+            source={{ uri: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop' }}
+            style={styles.profileImage}
           />
-          <Text style={[styles.userName, { color: theme.text }]}>Angellah M.</Text>
-          <Text style={[styles.userEmail, { color: theme.secondary }]}>angellah@example.com</Text>
-          
+          <Text style={[styles.userName, { color: theme.text }]}>Jane M.</Text>
+          <Text style={[styles.userEmail, { color: theme.secondary }]}>Jane@example.com</Text>
+
           <TouchableOpacity style={[styles.editBtn, { backgroundColor: theme.card }]}>
             <Text style={[styles.editBtnText, { color: theme.text }]}>Edit Profile</Text>
           </TouchableOpacity>
@@ -63,7 +63,7 @@ export default function ProfileScreen() {
             </TouchableOpacity>
           ))}
         </View>
-        
+
         <View style={styles.footer}>
           <Text style={[styles.versionText, { color: theme.secondary }]}>Kampala Nights v1.0.0</Text>
         </View>
